@@ -1,0 +1,16 @@
+Metadata-Version: 2.1
+Name: lgraph
+Version: 0.1
+Summary: Python module for working with L-graphs
+Home-page: https://github.com/rudanov/lgraph
+Author: Dmitry Rudanov
+Author-email: rudanov.d@gmail.com
+License: UNKNOWN
+Description: # lgraph
+        Python module for working with L-graphs
+        
+Platform: UNKNOWN
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Description-Content-Type: text/markdown
