@@ -1,19 +1,9 @@
 """
 Creating L-Graph that generates language { a^n b^n c^n | n >= 0 } and saving it to file.
 """
-from lgraph import LGraph, Edge, Vertex
+from lgraph import LGraph
 
 lg = LGraph()
-
-edges = [
-    Edge(Vertex('initial_main'), Vertex('0')),
-    Edge(Vertex('0'), Vertex('1')),
-    Edge(Vertex('1'), Vertex('2')),
-    Edge(Vertex('2'), Vertex('final_main')),
-    Edge(Vertex('0'), Vertex('0'), label='a', round_trace='('),
-    Edge(Vertex('1'), Vertex('1'), label='b', round_trace=')', square_trace='['),
-    Edge(Vertex('2'), Vertex('2'), label='c', square_trace=']'),
-]
 
 for _ in range(3):
     lg.add_vertex()
