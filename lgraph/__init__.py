@@ -1,6 +1,8 @@
 import string
 import json
 
+from collections import OrderedDict
+
 from lgraph.vertex import Vertex
 from lgraph.edge import Edge
 
@@ -23,12 +25,15 @@ class LGraph:
         pass
 
     def __dict__(self):
-        return dict(
+        def edge_dict_key(edg):
+            return edg['beginning'], edg['end'], edg['label'], edg['round_trace'], edg['square_trace']
+
+        return OrderedDict(
             alphabet=self.__alphabet,
             initials=sorted(list(self.__initials.keys())),
             finals=sorted(list(self.__finals.keys())),
             vertexes=sorted(list(self.__vertexes.keys())),
-            edges=sorted([edg.__dict__() for edg in self.__edges], key=lambda edg: edg['beginning']),
+            edges=sorted([edg.__dict__() for edg in self.__edges], key=edge_dict_key),
         )
 
     @property
@@ -143,7 +148,7 @@ class LGraph:
 
     def save(self, path: str):
         with open(path, 'w') as file:
-            print(json.dumps(self.__dict__(), indent=2), file=file)
+            print(json.dumps(self.__dict__(), indent=4), file=file)
 
     def load(self, path: str):
         with open(path, 'r') as file:
