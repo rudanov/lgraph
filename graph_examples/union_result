@@ -1,0 +1,201 @@
+{
+    "alphabet": "abcdefghijklmnopqrstuvwxyz",
+    "initials": [
+        "initial_main"
+    ],
+    "finals": [
+        "final_main"
+    ],
+    "vertexes": [
+        "A",
+        "A_1",
+        "B",
+        "B_1",
+        "C",
+        "C_1"
+    ],
+    "edges": [
+        {
+            "beginning": "A",
+            "end": "A",
+            "label": "a",
+            "round_trace": [
+                "(",
+                0
+            ],
+            "square_trace": [
+                "",
+                0
+            ]
+        },
+        {
+            "beginning": "A",
+            "end": "B",
+            "label": "b",
+            "round_trace": [
+                ")",
+                0
+            ],
+            "square_trace": [
+                "[",
+                0
+            ]
+        },
+        {
+            "beginning": "A_1",
+            "end": "A_1",
+            "label": "c",
+            "round_trace": [
+                "(",
+                1
+            ],
+            "square_trace": [
+                "",
+                1
+            ]
+        },
+        {
+            "beginning": "A_1",
+            "end": "B_1",
+            "label": "c",
+            "round_trace": [
+                "(",
+                1
+            ],
+            "square_trace": [
+                "",
+                1
+            ]
+        },
+        {
+            "beginning": "B",
+            "end": "B",
+            "label": "b",
+            "round_trace": [
+                ")",
+                0
+            ],
+            "square_trace": [
+                "[",
+                0
+            ]
+        },
+        {
+            "beginning": "B",
+            "end": "C",
+            "label": "c",
+            "round_trace": [
+                "",
+                0
+            ],
+            "square_trace": [
+                "]",
+                0
+            ]
+        },
+        {
+            "beginning": "B_1",
+            "end": "B_1",
+            "label": "a",
+            "round_trace": [
+                "",
+                1
+            ],
+            "square_trace": [
+                "[",
+                1
+            ]
+        },
+        {
+            "beginning": "B_1",
+            "end": "C_1",
+            "label": "a",
+            "round_trace": [
+                "",
+                1
+            ],
+            "square_trace": [
+                "[",
+                1
+            ]
+        },
+        {
+            "beginning": "C",
+            "end": "C",
+            "label": "c",
+            "round_trace": [
+                "",
+                0
+            ],
+            "square_trace": [
+                "]",
+                0
+            ]
+        },
+        {
+            "beginning": "C",
+            "end": "final_main",
+            "label": "",
+            "round_trace": [
+                "",
+                0
+            ],
+            "square_trace": [
+                "",
+                0
+            ]
+        },
+        {
+            "beginning": "C_1",
+            "end": "C_1",
+            "label": "b",
+            "round_trace": [
+                ")",
+                1
+            ],
+            "square_trace": [
+                "]",
+                1
+            ]
+        },
+        {
+            "beginning": "C_1",
+            "end": "final_main",
+            "label": "",
+            "round_trace": [
+                "",
+                1
+            ],
+            "square_trace": [
+                "",
+                1
+            ]
+        },
+        {
+            "beginning": "initial_main",
+            "end": "A",
+            "label": "",
+            "round_trace": [
+                "",
+                0
+            ],
+            "square_trace": [
+                "",
+                0
+            ]
+        },
+        {
+            "beginning": "initial_main",
+            "end": "A_1",
+            "label": "",
+            "round_trace": [
+                "",
+                1
+            ],
+            "square_trace": [
+                "",
+                1
+            ]
+        }
+    ]
+}

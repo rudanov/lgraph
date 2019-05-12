@@ -55,7 +55,7 @@ from lgraph import LGraph
 # lg.add_edge('B', 'B', label='b', round_trace=')', square_trace='[')
 # lg.add_edge('C', 'C', label='c', square_trace=']')
 #
-# lg.save('graph_examples/concatenate_left')
+# lg.save('graph_examples/left')
 #
 # lg = LGraph()
 #
@@ -72,7 +72,7 @@ from lgraph import LGraph
 # lg.add_edge('B', 'B', label='a', square_trace='[')
 # lg.add_edge('C', 'C', label='b', round_trace=')', square_trace=']')
 #
-# lg.save('graph_examples/concatenate_right')
+# lg.save('graph_examples/right')
 
 # lg.load('graph_examples/a^n_b^n_c^n')
 
@@ -103,8 +103,8 @@ from lgraph import LGraph
 
 lg_left, lg_right = LGraph(), LGraph()
 
-lg_left.load('graph_examples/concatenate_left')
-lg_right.load('graph_examples/concatenate_right')
+lg_left.load('graph_examples/left')
+lg_right.load('graph_examples/right')
 
-lg = lg_left * lg_right
-lg.save('graph_examples/concatenate_result')
+lg = lg_left + lg_right
+lg.save('graph_examples/union_result')
