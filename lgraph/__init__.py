@@ -2,13 +2,19 @@ import string
 import json
 
 from collections import OrderedDict
-
+from enum import Enum
 from lgraph.vertex import Vertex
 from lgraph.edge import Edge
 
 
 class LGraph:
-    def __init__(self, alphabet=string.ascii_lowercase):
+    class LGraphType(Enum):
+        RECURSIVELY_ENUMERABLE = 0
+        CONTEXT_SENSITIVE = 1
+        CONTEXT_FREE = 2
+        REGULAR = 3
+
+    def __init__(self, vtx_num=0, alphabet=string.ascii_lowercase):
         self.__initial_main_name = 'initial_main'
         self.__final_main_name = 'final_main'
 
@@ -17,6 +23,9 @@ class LGraph:
         self.__finals = dict(final_main=Vertex(self.__final_main_name))
         self.__vertexes = dict()
         self.__edges = set()
+
+        for _ in range(vtx_num):
+            self.add_vertex()
 
     def __dict__(self):
         def edge_dict_key(edg):
@@ -102,6 +111,15 @@ class LGraph:
     def number_of_edges(self):
         return len(self.__edges)
 
+    @property
+    def type(self):
+        return (
+            LGraph.LGraphType.REGULAR if self.is_regular() else
+            LGraph.LGraphType.CONTEXT_FREE if self.is_context_free() else
+            LGraph.LGraphType.CONTEXT_SENSITIVE if self.is_context_sensitive() else
+            LGraph.LGraphType.RECURSIVELY_ENUMERABLE
+        )
+
     def add_vertex(self, vtx_name=None, initial=False, final=False):
         vertex_dict = self.__initials if initial else self.__finals if final else self.__vertexes
         vtx_name = (
@@ -179,7 +197,7 @@ class LGraph:
     def load(self, path: str):
         with open(path, 'r') as file:
             data = json.load(file)
-            self.__init__(data['alphabet'])
+            self.__init__(vtx_num=0, alphabet=data['alphabet'])
 
             for vtx_set_name in ['initials', 'finals', 'vertexes']:
                 for vtx_name in data[vtx_set_name]:
@@ -198,12 +216,21 @@ class LGraph:
                     square_trace=tuple(edg['square_trace'])
                 )
 
-    def find_successful_path(self, item: str, vertexes=False):
+    def find_successful_path(self, item: str):
         for initial in self.initials:
             path = self.__find_successful_path(initial, item, list(), list())
             if path:
                 return path
         return None
+
+    def is_regular(self):
+        return not any(edg.round_trace[0] or edg.square_trace[0] for edg in self.__edges)
+
+    def is_context_free(self):
+        return not any(edg.square_trace[0] for edg in self.__edges)
+
+    def is_context_sensitive(self):
+        return not any(edg.square_trace[0] == '[' and not edg.label for edg in self.__edges)
 
     @staticmethod
     def path_to_string(path: list):

@@ -8,8 +8,7 @@
     ],
     "vertexes": [
         "0",
-        "1",
-        "2"
+        "1"
     ],
     "edges": [
         {
@@ -28,9 +27,9 @@
         {
             "beginning": "0",
             "end": "1",
-            "label": "",
+            "label": "b",
             "round_trace": [
-                "",
+                ")",
                 0
             ],
             "square_trace": [
@@ -47,38 +46,12 @@
                 0
             ],
             "square_trace": [
-                "[",
+                "",
                 0
             ]
         },
         {
             "beginning": "1",
-            "end": "2",
-            "label": "",
-            "round_trace": [
-                "",
-                0
-            ],
-            "square_trace": [
-                "",
-                0
-            ]
-        },
-        {
-            "beginning": "2",
-            "end": "2",
-            "label": "c",
-            "round_trace": [
-                "",
-                0
-            ],
-            "square_trace": [
-                "]",
-                0
-            ]
-        },
-        {
-            "beginning": "2",
             "end": "final_main",
             "label": "",
             "round_trace": [

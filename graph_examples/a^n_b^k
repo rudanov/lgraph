@@ -1,0 +1,80 @@
+{
+    "alphabet": "abcdefghijklmnopqrstuvwxyz",
+    "initials": [
+        "initial_main"
+    ],
+    "finals": [
+        "final_main"
+    ],
+    "vertexes": [
+        "0",
+        "1"
+    ],
+    "edges": [
+        {
+            "beginning": "0",
+            "end": "0",
+            "label": "a",
+            "round_trace": [
+                "",
+                0
+            ],
+            "square_trace": [
+                "",
+                0
+            ]
+        },
+        {
+            "beginning": "0",
+            "end": "1",
+            "label": "",
+            "round_trace": [
+                "",
+                0
+            ],
+            "square_trace": [
+                "",
+                0
+            ]
+        },
+        {
+            "beginning": "1",
+            "end": "1",
+            "label": "b",
+            "round_trace": [
+                "",
+                0
+            ],
+            "square_trace": [
+                "",
+                0
+            ]
+        },
+        {
+            "beginning": "1",
+            "end": "final_main",
+            "label": "",
+            "round_trace": [
+                "",
+                0
+            ],
+            "square_trace": [
+                "",
+                0
+            ]
+        },
+        {
+            "beginning": "initial_main",
+            "end": "0",
+            "label": "",
+            "round_trace": [
+                "",
+                0
+            ],
+            "square_trace": [
+                "",
+                0
+            ]
+        }
+    ]
+}
