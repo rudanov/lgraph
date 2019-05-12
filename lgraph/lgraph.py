@@ -59,9 +59,6 @@ class LGraph:
         for vtx in other.vertexes:
             names_dict[vtx.name] = lg.add_vertex(vtx_name=vtx.name, adjust_name=True)
 
-        max_round_trace_idx = 0
-        max_square_trace_idx = 0
-
         for edg in self.edges:
             lg.add_edge(
                 beg_vtx_name=edg.beg.name if edg.beg not in self.initials else lg.initial_main.name,
@@ -70,16 +67,14 @@ class LGraph:
                 round_trace=edg.round_trace,
                 square_trace=edg.square_trace
             )
-            max_round_trace_idx = max(max_round_trace_idx, edg.round_trace[1])
-            max_square_trace_idx = max(max_square_trace_idx, edg.square_trace[1])
 
         for edg in other.edges:
             lg.add_edge(
                 beg_vtx_name=names_dict[edg.beg.name] if edg.beg not in other.initials else lg.initial_main.name,
                 end_vtx_name=names_dict[edg.end.name] if edg.end not in other.finals else lg.final_main.name,
                 label=edg.label,
-                round_trace=(edg.round_trace[0], edg.round_trace[1] + max_round_trace_idx + 1),
-                square_trace=(edg.square_trace[0], edg.square_trace[1] + max_square_trace_idx + 1)
+                round_trace=edg.round_trace,
+                square_trace=edg.square_trace
             )
 
         lg.reduce()

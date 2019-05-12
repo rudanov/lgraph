@@ -47,11 +47,11 @@
             "label": "c",
             "round_trace": [
                 "(",
-                1
+                0
             ],
             "square_trace": [
                 "",
-                1
+                0
             ]
         },
         {
@@ -60,11 +60,11 @@
             "label": "c",
             "round_trace": [
                 "(",
-                1
+                0
             ],
             "square_trace": [
                 "",
-                1
+                0
             ]
         },
         {
@@ -99,11 +99,11 @@
             "label": "a",
             "round_trace": [
                 "",
-                1
+                0
             ],
             "square_trace": [
                 "[",
-                1
+                0
             ]
         },
         {
@@ -112,11 +112,11 @@
             "label": "a",
             "round_trace": [
                 "",
-                1
+                0
             ],
             "square_trace": [
                 "[",
-                1
+                0
             ]
         },
         {
@@ -151,11 +151,11 @@
             "label": "b",
             "round_trace": [
                 ")",
-                1
+                0
             ],
             "square_trace": [
                 "]",
-                1
+                0
             ]
         },
         {
@@ -164,11 +164,11 @@
             "label": "",
             "round_trace": [
                 "",
-                1
+                0
             ],
             "square_trace": [
                 "",
-                1
+                0
             ]
         },
         {
@@ -190,11 +190,11 @@
             "label": "",
             "round_trace": [
                 "",
-                1
+                0
             ],
             "square_trace": [
                 "",
-                1
+                0
             ]
         }
     ]
