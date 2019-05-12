@@ -18,12 +18,6 @@ class LGraph:
         self.__vertexes = dict()
         self.__edges = set()
 
-        self.__square_brackets = list()
-        self.__round_brackets = list()
-
-    def __contains__(self, item: str):
-        pass
-
     def __dict__(self):
         def edge_dict_key(edg):
             return edg['beginning'], edg['end'], edg['label'], edg['round_trace'], edg['square_trace']
@@ -36,17 +30,49 @@ class LGraph:
             edges=sorted([edg.__dict__() for edg in self.__edges], key=edge_dict_key),
         )
 
+    def __contains__(self, item):
+        return self.find_successful_path(item) is not None
+
+    def __find_successful_path(self, start: Vertex, item: str, round_brackets: list, square_brackets: list):
+        if not item and start in self.finals and not round_brackets and not square_brackets:
+            return []
+
+        allowed_edges = [edg for edg in start.edges if edg.label == '' or edg.label == (item[0] if item else '')]
+        for edg in allowed_edges:
+            new_round_brackets_stack = round_brackets.copy()
+            new_square_brackets_stack = square_brackets.copy()
+
+            if edg.round_trace[0] == '(':
+                new_round_brackets_stack.append(edg.round_trace)
+            elif edg.round_trace[0] == ')':
+                if not new_round_brackets_stack or edg.round_trace[1] != new_round_brackets_stack[-1][1]:
+                    return None
+                new_round_brackets_stack = new_round_brackets_stack[:-1]
+
+            if edg.square_trace[0] == '[':
+                new_square_brackets_stack.append(edg.square_trace)
+            elif edg.square_trace[0] == ']':
+                if not new_square_brackets_stack or edg.square_trace[1] != new_square_brackets_stack[-1][1]:
+                    return None
+                new_square_brackets_stack = new_square_brackets_stack[:-1]
+
+            path = self.__find_successful_path(edg.end, item[len(edg.label):],
+                                               new_round_brackets_stack, new_square_brackets_stack)
+            if path is not None:
+                return [edg] + path
+        return None
+
     @property
     def alphabet(self):
         return self.__alphabet
 
     @property
     def initials(self):
-        return self.__initials
+        return self.__initials.values()
 
     @property
     def finals(self):
-        return self.__finals
+        return self.__finals.values()
 
     @property
     def vertexes(self):
@@ -171,3 +197,17 @@ class LGraph:
                     round_trace=tuple(edg['round_trace']),
                     square_trace=tuple(edg['square_trace'])
                 )
+
+    def find_successful_path(self, item: str, vertexes=False):
+        for initial in self.initials:
+            path = self.__find_successful_path(initial, item, list(), list())
+            if path:
+                return path
+        return None
+
+    @staticmethod
+    def path_to_string(path: list):
+        if not path:
+            return 'No path'
+        result = ''.join(f'{edg.beg.name}--{edg.label}-->' for edg in path)
+        return result + f'{path[-1].end.name}'

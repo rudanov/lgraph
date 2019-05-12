@@ -18,4 +18,18 @@ lg.add_edge('1', '1', label='b', round_trace=')', square_trace='[')
 lg.add_edge('2', '2', label='c', square_trace=']')
 
 lg.save('a^n_b^n_c^n')
-lg.load('a^n_b^n_c^n')
+# lg.load('a^n_b^n_c^n')
+
+path = lg.find_successful_path('')
+print(LGraph.path_to_string(path))
+
+path = lg.find_successful_path('abc')
+print(LGraph.path_to_string(path))
+
+path = lg.find_successful_path('abcc')
+print(LGraph.path_to_string(path))
+
+path = lg.find_successful_path('aaaabbbbcccc')
+print(LGraph.path_to_string(path))
+
+print('abc' in lg, 'asdf' in lg)
