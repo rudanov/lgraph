@@ -18,6 +18,10 @@ class LGraph:
         self.__initial_main_name = 'initial_main'
         self.__final_main_name = 'final_main'
 
+        self.__initial_prefix = 'initial'
+        self.__final_prefix = 'final'
+        self.__transition_prefix = 'transition'
+
         self.__alphabet = alphabet
         self.__initials = dict(initial_main=Vertex(self.__initial_main_name))
         self.__finals = dict(final_main=Vertex(self.__final_main_name))
@@ -41,6 +45,53 @@ class LGraph:
 
     def __contains__(self, item):
         return self.find_successful_path(item) is not None
+
+    def __mul__(self, other):
+        lg = LGraph(alphabet=''.join(sorted(set(self.alphabet) | set(other.alphabet))))
+
+        for initial in self.initials:
+            if initial.name != self.__initial_main_name:
+                lg.add_vertex(vtx_name=initial.name)
+
+        for final in other.finals:
+            if final.name != self.__final_main_name:
+                lg.add_vertex(vtx_name=final.name)
+
+        for vtx in self.vertexes:
+            lg.add_vertex(vtx_name=vtx.name)
+
+        names_dict = dict()
+        for vtx in other.vertexes:
+            names_dict[vtx.name] = lg.add_vertex(vtx_name=vtx.name, adjust_name=True)
+
+        transition_name = lg.add_vertex(vtx_name=self.__transition_prefix, adjust_name=True)
+
+        max_round_trace_idx = 0
+        max_square_trace_idx = 0
+
+        for edg in self.edges:
+            lg.add_edge(
+                beg_vtx_name=edg.beg.name,
+                end_vtx_name=edg.end.name if edg.end not in self.finals else transition_name,
+                label=edg.label,
+                round_trace=edg.round_trace,
+                square_trace=edg.square_trace
+            )
+            max_round_trace_idx = max(max_round_trace_idx, edg.round_trace[1])
+            max_square_trace_idx = max(max_square_trace_idx, edg.square_trace[1])
+
+        for edg in other.edges:
+            lg.add_edge(
+                beg_vtx_name=names_dict[edg.beg.name] if edg.beg not in other.initials else transition_name,
+                end_vtx_name=names_dict[edg.end.name] if edg.end not in other.finals else edg.end.name,
+                label=edg.label,
+                round_trace=(edg.round_trace[0], edg.round_trace[1] + max_round_trace_idx + 1),
+                square_trace=(edg.square_trace[0], edg.square_trace[1] + max_square_trace_idx + 1)
+            )
+
+        lg.reduce()
+
+        return lg
 
     def __find_successful_path(self, start: Vertex, item: str, round_brackets: list, square_brackets: list):
         if not item and start in self.finals and not round_brackets and not square_brackets:
@@ -93,11 +144,11 @@ class LGraph:
 
     @property
     def initial_main(self):
-        return self.__initials['initial_main']
+        return self.__initials[self.__initial_main_name]
 
     @property
     def final_main(self):
-        return self.__finals['final_main']
+        return self.__finals[self.__final_main_name]
 
     @property
     def vertex_names(self):
@@ -120,18 +171,23 @@ class LGraph:
             LGraph.LGraphType.RECURSIVELY_ENUMERABLE
         )
 
-    def add_vertex(self, vtx_name=None, initial=False, final=False):
-        vertex_dict = self.__initials if initial else self.__finals if final else self.__vertexes
-        vtx_name = (
-            vtx_name if vtx_name else
-            f'initial_{len(self.__initials)}' if initial else
-            f'final_{len(self.__finals)}' if final else
-            f'{len(self.__vertexes)}'
+    def add_vertex(self, vtx_name=None, adjust_name=False):
+        vertex_dict = (
+            self.__initials if vtx_name.startswith(self.__initial_prefix) else
+            self.__finals if vtx_name.startswith(self.__final_prefix) else
+            self.__vertexes
         )
-        if vtx_name in self.vertex_names:
+        new_vtx_name = vtx_name if vtx_name else f'{len(self.__vertexes)}'
+        if vtx_name in self.vertex_names and not adjust_name:
             raise ValueError(f'Vertex with name "{vtx_name}" already exists.')
+        elif vtx_name in self.vertex_names and adjust_name:
+            i = 1
+            while new_vtx_name in self.vertex_names:
+                new_vtx_name = f'{vtx_name}_{i}'
+                i += 1
 
-        vertex_dict[vtx_name] = Vertex(name=vtx_name)
+        vertex_dict[new_vtx_name] = Vertex(name=new_vtx_name)
+        return new_vtx_name
 
     def remove_vertex(self, vtx_name: str):
         if vtx_name in [self.__initial_main_name, self.__final_main_name]:
@@ -170,7 +226,7 @@ class LGraph:
         vtx_dict[new_vtx_name].rename(new_vtx_name)
         vtx_dict.pop(vtx_name, None)
 
-    def add_edge(self, beg_vtx_name: str, end_vtx_name: str, label = '', round_trace=('', 0), square_trace=('', 0)):
+    def add_edge(self, beg_vtx_name: str, end_vtx_name: str, label='', round_trace=('', 0), square_trace=('', 0)):
         if label not in self.alphabet:
             raise ValueError(f'Edge label "{label}"" is not from the alphabet.')
 
@@ -202,11 +258,7 @@ class LGraph:
             for vtx_set_name in ['initials', 'finals', 'vertexes']:
                 for vtx_name in data[vtx_set_name]:
                     if vtx_name not in [self.__initial_main_name, self.__final_main_name]:
-                        self.add_vertex(
-                            vtx_name,
-                            initial=vtx_set_name == 'initials',
-                            final=vtx_set_name == 'finals'
-                        )
+                        self.add_vertex(vtx_name)
 
             for edg in data['edges']:
                 self.add_edge(
@@ -222,6 +274,35 @@ class LGraph:
             if path:
                 return path
         return None
+
+    def reduce(self):
+        edges_to_remove = list()
+        edges_to_add = list()
+        vertexes_to_remove = list()
+
+        for vtx in self.vertexes:
+            destinations = set(edg.end for edg in vtx.edges)
+            if len(destinations) == 1 and all(edg.label == edg.round_trace[0] == edg.square_trace[0] == '' for edg in vtx.edges):
+                destination = destinations.pop()
+                vertexes_to_remove.append(vtx.name)
+                for edg in self.edges:
+                    if edg.end == vtx:
+                        edges_to_add.append(dict(
+                            beg_vtx_name=edg.beg.name,
+                            end_vtx_name=destination.name,
+                            label=edg.label,
+                            round_trace=edg.round_trace,
+                            square_trace=edg.square_trace
+                        ))
+                    if edg.beg == vtx or edg.end == vtx:
+                        edges_to_remove.append(edg)
+
+        for edg_dict in edges_to_add:
+            self.add_edge(**edg_dict)
+        for edg in edges_to_remove:
+            self.remove_edge(edg)
+        for vtx_name in vertexes_to_remove:
+            self.remove_vertex(vtx_name)
 
     def is_regular(self):
         return not any(edg.round_trace[0] or edg.square_trace[0] for edg in self.__edges)
