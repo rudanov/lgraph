@@ -222,11 +222,11 @@ class LGraph:
 
     def add_vertex(self, vtx_name=None, adjust_name=False):
         vertex_dict = (
-            self.__initials if vtx_name.startswith(self.__initial_prefix) else
-            self.__finals if vtx_name.startswith(self.__final_prefix) else
+            self.__initials if vtx_name and vtx_name.startswith(self.__initial_prefix) else
+            self.__finals if vtx_name and vtx_name.startswith(self.__final_prefix) else
             self.__vertexes
         )
-        new_vtx_name = vtx_name if vtx_name else f'{len(self.__vertexes)}'
+        new_vtx_name = vtx_name if vtx_name else f'{len(self.__vertexes) + 1}'
         if vtx_name in self.vertex_names and not adjust_name:
             raise ValueError(f'Vertex with name "{vtx_name}" already exists.')
         elif vtx_name in self.vertex_names and adjust_name:

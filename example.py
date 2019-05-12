@@ -5,40 +5,40 @@ from lgraph import LGraph
 
 
 # Creating some L-graphs and saving them
-# lg = LGraph(3)
-#
-# lg.add_edge(lg.initial_main.name, '0')
-# lg.add_edge('0', '1', label='b', round_trace=')', square_trace='[')
-# lg.add_edge('1', '2', label='c', square_trace=']')
-# lg.add_edge('2', lg.final_main.name)
-#
-# lg.add_edge('0', '0', label='a', round_trace='(')
-# lg.add_edge('1', '1', label='b', round_trace=')', square_trace='[')
-# lg.add_edge('2', '2', label='c', square_trace=']')
-#
-# lg.save('graph_examples/a^n_b^n_c^n')
-#
-# lg = LGraph(2)
-#
-# lg.add_edge(lg.initial_main.name, '0')
-# lg.add_edge('0', '1')
-# lg.add_edge('1', lg.final_main.name)
-#
-# lg.add_edge('0', '0', label='a')
-# lg.add_edge('1', '1', label='b')
-#
-# lg.save('graph_examples/a^n_b^k')
-#
-# lg = LGraph(2)
-#
-# lg.add_edge(lg.initial_main.name, '0')
-# lg.add_edge('1', lg.final_main.name)
-#
-# lg.add_edge('0', '1', label='b', round_trace=')')
-# lg.add_edge('0', '0', label='a', round_trace='(')
-# lg.add_edge('1', '1', label='b', round_trace=')')
-#
-# lg.save('graph_examples/a^n_b^n')
+lg = LGraph(3)
+
+lg.add_edge(lg.initial_main.name, '1')
+lg.add_edge('1', '2', label='b', round_trace=')', square_trace='[')
+lg.add_edge('2', '3', label='c', square_trace=']')
+lg.add_edge('3', lg.final_main.name)
+
+lg.add_edge('1', '1', label='a', round_trace='(')
+lg.add_edge('2', '2', label='b', round_trace=')', square_trace='[')
+lg.add_edge('3', '3', label='c', square_trace=']')
+
+lg.save('graph_examples/a^n_b^n_c^n')
+
+lg = LGraph(2)
+
+lg.add_edge(lg.initial_main.name, '1')
+lg.add_edge('1', '2')
+lg.add_edge('2', lg.final_main.name)
+
+lg.add_edge('1', '1', label='a')
+lg.add_edge('2', '2', label='b')
+
+lg.save('graph_examples/a^n_b^k')
+
+lg = LGraph(2)
+
+lg.add_edge(lg.initial_main.name, '1')
+lg.add_edge('1', '2', label='b', round_trace=')')
+lg.add_edge('2', lg.final_main.name)
+
+lg.add_edge('1', '1', label='a', round_trace='(')
+lg.add_edge('2', '2', label='b', round_trace=')')
+
+lg.save('graph_examples/a^n_b^n')
 
 # lg = LGraph()
 #
@@ -101,10 +101,10 @@ from lgraph import LGraph
 
 # CONCATENATE TEST
 
-lg_left, lg_right = LGraph(), LGraph()
-
-lg_left.load('graph_examples/left')
-lg_right.load('graph_examples/right')
-
-lg = lg_left + lg_right
-lg.save('graph_examples/union_result')
+# lg_left, lg_right = LGraph(), LGraph()
+#
+# lg_left.load('graph_examples/left')
+# lg_right.load('graph_examples/right')
+#
+# lg = lg_left + lg_right
+# lg.save('graph_examples/union_result')
