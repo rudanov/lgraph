@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name='l-graph',
-    version='0.2',
+    version='0.2.2',
      author="Dmitry Rudanov",
      author_email="rudanov.d@gmail.com",
      description="Python module for working with L-graphs",
