@@ -3,7 +3,7 @@ Python module for working with L-graphs.
 
 ## Installation
 ```sh
-pip install lgraph
+pip install l-graph
 ```
 
 ## Creating an L-graph

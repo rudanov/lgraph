@@ -91,10 +91,10 @@ from lgraph import LGraph
 
 # UNION TEST
 
-lg_left, lg_right = LGraph(), LGraph()
-
-lg_left.load('graph_examples/left')
-lg_right.load('graph_examples/right')
-
-lg = lg_left + lg_right
-lg.save('graph_examples/union_result')
+# lg_left, lg_right = LGraph(), LGraph()
+#
+# lg_left.load('graph_examples/left')
+# lg_right.load('graph_examples/right')
+#
+# lg = lg_left + lg_right
+# lg.save('graph_examples/union_result')
